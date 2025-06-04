@@ -1,9 +1,10 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Portfolio</title>
+  <title>Jack Burkholder Portfolio</title>
   <style>
     * {
       box-sizing: border-box;
@@ -14,7 +15,7 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.6;
-      background-color: #f4f4f4;
+      background-color: #f3e8ff; /* Changed to purple */
       color: #333;
       scroll-behavior: smooth;
     }
@@ -57,10 +58,6 @@
       margin-bottom: 4rem;
     }
 
-    #about, #projects, #contact {
-      padding: 2rem 0;
-    }
-
     h1, h2 {
       color: #222;
       margin-bottom: 1rem;
@@ -84,32 +81,11 @@
       margin-bottom: 0.5rem;
     }
 
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      max-width: 600px;
-      margin: auto;
-    }
-
-    .contact-form input, .contact-form textarea {
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .contact-form button {
-      padding: 0.75rem;
-      background: #333;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .contact-form button:hover {
-      background: #f9c74f;
-      color: #000;
+    .project-card a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: #5e17eb;
+      text-decoration: underline;
     }
 
     footer {
@@ -117,13 +93,6 @@
       color: #fff;
       text-align: center;
       padding: 1rem 0;
-    }
-
-    @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
     }
   </style>
 </head>
@@ -145,14 +114,17 @@
         <div class="project-card">
           <h3>Polarity-Checker</h3>
           <p>Made a program using Pandas and spaCy that detects polarity of responses for data-vectorization and natural language processing.</p>
+          <a href="polarity-checker.html">Learn More →</a>
         </div>
         <div class="project-card">
           <h3>Celtics25 Database in PostGreSQL</h3>
-          <p>Created and managed a relational database in a PostGreSQL server. Used Pandas to extract data and display it in various ways on Google Sheets</p>
+          <p>Created and managed a relational database in a PostGreSQL server. Used Pandas to extract data and display it in various ways on Google Sheets.</p>
+          <a href="celtics25.html">Learn More →</a>
         </div>
         <div class="project-card">
           <h3>Firebase Tutorial (Real-time Database)</h3>
           <p>Created a tutorial on how to use Google Firebase's real-time database. Contains general information on what the NoSQL real-time database is and how it works.</p>
+          <a href="firebase-tutorial.html">Learn More →</a>
         </div>
       </div>
     </section>
@@ -162,12 +134,5 @@
     <p>&copy; 2025 Jack Burkholder. All rights reserved.</p>
   </footer>
 
-  <script>
-    document.getElementById('contactForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      alert('Thank you for your message, ' + document.getElementById('name').value + '!');
-      this.reset();
-    });
-  </script>
 </body>
 </html>
