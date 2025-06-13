@@ -45,6 +45,135 @@
     <p><a href="index.html">← Back to Portfolio</a></p>
   </div>
   
+<h1>Arlington2050 Project Summary</h1>
+<ul>
+  <li>Mr. Jones and our class at Arlington Tech participated in the Arlington 2050 project.</li>
+  <li>People gave their responses on what they think Arlington will be like in 2050.</li>
+  <li>Specifically, we used the responses from the county fair.</li>
+  <li>Since we were given many responses, our class used math and coding to process the data into meaningful data and visualizations.</li>
+</ul>
+
+<h2>The Process</h2>
+<ul>
+  <li>We specifically used Python to code with the data.</li>
+  <li>We used a tool called Pandas, which allows Python to interact with Excel files and databases.</li>
+</ul>
+
+<pre><code>import pandas as pd</code></pre>
+
+<p>We can load the Excel file and assign it to a variable.</p>
+<pre><code>array1 = pd.read_excel("CountyFair.xlsx")</code></pre>
+
+<p>Now we can rename the columns of the table, making it easier to work with.</p>
+<pre><code>ds = array1.rename(columns={
+  "Unnamed: 1": "Year2050",
+  "Unnamed: 2": "Translation1",
+  "Unnamed: 3": "Getting_Here",
+  "Unnamed: 4": "Translation2"
+})</code></pre>
+
+<p>We can begin processing the data and eventually visualize it.</p>
+<ul>
+  <li>We use <code>spacy</code>, a Python library for NLP.</li>
+</ul>
+
+<pre><code>import spacy
+from wordcloud import WordCloud, STOPWORDS
+import matplotlib.pyplot as plt
+from spacytextblob.spacytextblob import SpacyTextBlob</code></pre>
+
+<p>To replace Spanish responses with English translations:</p>
+<pre><code>nlp = spacy.load('en_core_web_sm')
+nlp.add_pipe('spacytextblob')
+
+string_list = ds['Year2050'].tolist()
+spanish_list = ds['Translation1'].tolist()
+IndexCounter = 0
+for n in spanish_list:
+    workingstring = str(n)
+    if workingstring != 'nan':
+        string_list[IndexCounter] = workingstring
+    IndexCounter += 1</code></pre>
+
+<h2>Creating a Word Cloud</h2>
+<ul>
+  <li>We extract all words (excluding stop words and punctuation).</li>
+</ul>
+
+<pre><code>text = ds['Year2050'].str.cat(sep='')
+doc = nlp(text)
+words = [token.text for token in doc if not token.is_stop and not token.is_punct]</code></pre>
+
+<p>Now, use <code>WordCloud</code> to create the visualization:</p>
+<pre><code>wordcloud = WordCloud(width=800, height=400, background_color='white',
+                      max_words=100, contour_width=3, contour_color='steelblue'
+                     ).generate(" ".join(words))
+
+plt.figure(figsize=(10, 5))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+plt.show()</code></pre>
+
+<p>This helps us visualize major themes like <strong>housing</strong>, <strong>parks</strong>, and <strong>community</strong>.</p>
+
+<h2>Creating Histograms for Polarity & Subjectivity</h2>
+<p>First, calculate polarity and subjectivity of each sentence:</p>
+<pre><code>pol_list = []
+sub_list = []
+for t in range(2, len(string_list)):
+    text = string_list[t]
+    doc = nlp(text)
+    pol_list.append(doc._.blob.polarity)
+    sub_list.append(doc._.blob.subjectivity)</code></pre>
+
+<p>Import libraries:</p>
+<pre><code>import seaborn as sns
+import numpy as np</code></pre>
+
+<h3>Subjectivity Histogram</h3>
+<pre><code>plt.figure(figsize=(10, 6))
+sns.histplot(data=sub_list)
+plt.title('Subjectivity of Postcard Responses from County Fair')
+plt.xlabel('In a range from 0 to 1')
+plt.ylabel('Frequency')
+plt.grid(True)
+plt.show()</code></pre>
+
+<h3>Polarity Histogram</h3>
+<pre><code>plt.figure(figsize=(10, 6))
+sns.histplot(data=pol_list)
+plt.title('Polarity of Postcard Responses from County Fair')
+plt.xlabel('In a range from -1 to 1')
+plt.ylabel('Frequency')
+plt.grid(True)
+plt.show()</code></pre>
+
+<h2>Two Other Methods for Data Processing and Visualization</h2>
+
+<h3>Dimensionality Reduction (From Alex)</h3>
+<ul>
+  <li>It simplifies data by reducing the number of features.</li>
+  <li>This helps eliminate redundancy and noise in models.</li>
+</ul>
+
+<h3>Vector Embeddings (From Blu)</h3>
+<ul>
+  <li>Vector embeddings map words to numerical vectors.</li>
+  <li>They allow us to mathematically compare word similarity or detect outliers.</li>
+</ul>
+
+<p>Example: Using Spacy to check vector stats for common vs nonsense words</p>
+<pre><code>import spacy
+nlp = spacy.load("en_core_web_lg") 
+tokens = nlp("dog cat banana afskfsd")
+
+for token in tokens:
+    print(token.text, token.has_vector, token.vector_norm, token.is_oov)</code></pre>
+
+<h2>Summary</h2>
+<p>
+  Though some of the concepts we explored are complex and even taught at the college level, the Arlington2050 project taught us how to mathematically represent language, a key part of how AI understands the world. This was a powerful introduction to natural language processing and real-world data visualization.
+</p>
 
 </body>
 </html>
